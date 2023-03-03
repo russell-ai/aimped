@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: aimped
+Version: 0.0.1
+Summary: A small NLP example package
+Home-page: https://dev.ml-hub.nioyatechai.com/
+Author: Russell C.
+Author-email: russell@aimped.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+A small NLP example package with nlp functions

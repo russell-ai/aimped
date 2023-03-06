@@ -1,6 +1,7 @@
-__version__ = '0.0.1'
+from .version import __version__
 
-def get_aimped_version():
+def get_version():
+    """Returns the version of aimped library."""
     return f'aimped version: {__version__}'
 
 

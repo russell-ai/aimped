@@ -10,7 +10,6 @@ task_list = [
 
 ]
 
-# write pipeline function here for each task also import the functions from the current directory
 
 def pipeline(text, model, tokenizer,task="ner"):
     """

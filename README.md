@@ -1,7 +1,7 @@
 # **aimped**
 ![aimped](https://dev.ml-hub.nioyatechai.com/static/media/AimpedBirdLogo.0b3c7cc26d31afe7bd73db496acb01d1.svg)
 
-**Aimped is a unique library that provides classes and functions for only exclusively business-tailored AI-based NLP models.**  
+**Aimped is a unique python library that provides classes and functions for only exclusively business-tailored AI-based NLP models.**  
 
 # Installation  
 ```python

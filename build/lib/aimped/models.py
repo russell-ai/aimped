@@ -1,4 +1,4 @@
-# Author: Aimped
+# Author: AIMPED
 # Date: 2023-March-11
 # Description: This file contains model loading functions
 

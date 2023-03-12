@@ -1,6 +1,9 @@
+# Author: Aimped
+# Date: 2023-March-11
+# Description: This file contains model loading functions
 
-def load_config():
-    with open('config.json') as f:
+def load_config(file_path='config.json'):
+    with open(file_path, "r") as f:
         config = json.load(f)
     return config
 

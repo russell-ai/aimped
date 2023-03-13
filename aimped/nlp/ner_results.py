@@ -1,11 +1,12 @@
 # Author: AIMPED
 # Date: 2023-March-11
 # Description: NER model results
-
+from typing import List
 
 def NerModelResults(sents_tokens_list, tokenizer, model, text, device, 
                     assertion_relation = False, sentences =[]):
     """
+    It returns the NER model results of a text.
     Parameters
     ----------
     sents_tokens_list : list
@@ -32,6 +33,7 @@ def NerModelResults(sents_tokens_list, tokenizer, model, text, device,
     sent_idxs : list
         Only returned if assertion_relation is True
     """
+    import torch
     start=0
     tokens,probs,begins,ends,preds,sent_begins,sent_ends,sent_idxs = [],[],[],[],[],[],[],[]
 
@@ -88,21 +90,24 @@ if __name__ == "__main__":
     from tokenizer import sentence_tokenizer, word_tokenizer
 
     # load model
-    from transformers import AutoTokenizer, AutoModel
-
-    saved_model_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\deid-ner-2\alldeidft_deberta_small"
+    from transformers import AutoTokenizer, AutoModelForTokenClassification
+    saved_model_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\model"
     tokenizer = AutoTokenizer.from_pretrained(saved_model_path)
-    model = AutoModel.from_pretrained(saved_model_path)
+    model = AutoModelForTokenClassification.from_pretrained(saved_model_path)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # load data
     text = open("aimped\\test\\data.txt", "r").read()
     sents_tokens_list = word_tokenizer(sentence_tokenizer(text, "english"))
+
+    # ner = pipeline('token-classification', model=model, tokenizer=tokenizer, device=device)
+    # print(ner(text))
+
     # print(sents_tokens_list)
     tokens, preds, probs, begins, ends = NerModelResults(sents_tokens_list, tokenizer, model, text, device)
-    print("tokens: ", tokens)
-    print("preds: ", preds)
-    print("probs", probs)
-    print("begins", begins)
-    print("ends", ends)
 
+    white_label_list = ['PATIENT','ORGANIZATION','SSN','SEX','DOCTOR','HOSPITAL','AGE','MEDICALRECORD','ZIP','STREET','EMAIL','DATE', 'ID','CITY','COUNTRY', 'PROFESSION']
+
+    from chunk_merger import ChunkMerger
+    merged_chunks = ChunkMerger(text, white_label_list, tokens, preds, probs, begins, ends)
+    print(merged_chunks)

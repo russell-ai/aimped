@@ -28,6 +28,7 @@ def ChunkMerger(text, white_label_list, tokens, preds, probs, begins, ends,
     -------
     results : list
     """
+    import numpy as np
     results = []
     idx = 0
     while idx < len(tokens):

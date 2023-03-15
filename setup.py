@@ -12,10 +12,10 @@ setuptools.setup(
                         'scikit-learn',
                         "seqeval"
                         ],
-    author="Russell C.-Raife H.",
-    author_email="contact@aimped.com", 
+    author="Russell C., Raife H.",
+    author_email="russell@aimped.com, raife@aimped.com",
     maintainer="aimped",
-    maintainer_email="contact@nioyatech.com",
+    maintainer_email="contact@aimped.com",
     description="Aimped is a unique library that provides classes and functions for only exclusively business-tailored AI-based NLP models.",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",

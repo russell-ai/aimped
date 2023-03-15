@@ -24,7 +24,7 @@ def assertion_annotate_sentence(df):
     return df['new_sentence'] 
 
 
-def AssertionModelResults(text,ner_results, sentences, tokenizer, model, classifier):
+def AssertionModelResults(ner_results, sentences, classifier, assertion_white_label_list):
     """
     It returns the assertion detection results of a text.
     parameters:
@@ -41,6 +41,7 @@ def AssertionModelResults(text,ner_results, sentences, tokenizer, model, classif
     """
     import pandas as pd
     import numpy as np
+    df = pd.DataFrame()
     if len(ner_results) >= 1:
         ner_results = list(map(lambda x : list(x.values()),ner_results))
         df = pd.DataFrame(ner_results)
@@ -52,10 +53,11 @@ def AssertionModelResults(text,ner_results, sentences, tokenizer, model, classif
             df['new_sentence'] = np.nan
             df['new_sentence'] = df.apply(assertion_annotate_sentence, axis = 1)
             df.reset_index(drop=True,inplace=True)
-            rel_results = classifier(list(df['new_sentence']), batch_size=8)
+            rel_results = classifier(list(df['new_sentence']))
             df = pd.concat([df,pd.DataFrame(rel_results)], axis= 1)
             df = df[['begin', 'end', 'ner_label', 'chunk', 'label','score']]
             df.columns = ['begin','end', 'ner_label', 'chunk', 'assertion','score']
+            df =df[df['assertion'].isin(assertion_white_label_list)]
     return df.to_dict(orient = 'records')
 
 

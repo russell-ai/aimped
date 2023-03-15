@@ -8,10 +8,12 @@ setuptools.setup(
     install_requires=[ 
                         'nltk',
                         'numpy',
-                        'pandas' 
+                        'pandas',
+                        'scikit-learn',
+                        "seqeval"
                         ],
-    author="Russell C.",
-    author_email="russell@aimped.com", 
+    author="Russell C.-Raife H.",
+    author_email="contact@aimped.com", 
     maintainer="aimped",
     maintainer_email="contact@nioyatech.com",
     description="Aimped is a unique library that provides classes and functions for only exclusively business-tailored AI-based NLP models.",

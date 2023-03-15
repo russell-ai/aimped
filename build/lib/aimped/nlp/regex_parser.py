@@ -2,7 +2,7 @@
 # Date: 2023-March-12
 # Description: This file contains the regex parser for de-identification of clinical notes
 
-def RegexNerParser(path, text):
+def RegexNerParser(path, text, white_label_list):
     """
     Finds all the chunks that correspond to the regex pattern, 
     and checks their prefix and suffix collocations in the scope of context length.
@@ -52,6 +52,7 @@ def RegexNerParser(path, text):
     return parser_results
 
 
+
 def RegexModelNerMerger(rule, results_from_model):
     """
     Merges the results from regex and model.
@@ -78,18 +79,10 @@ def RegexModelNerMerger(rule, results_from_model):
     return merged
 
 
-def RegexModelNerChunkResults(regex_json_files_path_list, model_results,text):
-    """
-    Merges the results from regex and model.
-    parameters:
-    regex_json_files_path_list: list of str
-    model_results: list of dict
-    text: str
-    return:
-    merged_results: list of dict
-    """
-    merged = RegexNerParser(regex_json_files_path_list[0], text)
-    for i in range(1, len(regex_json_files_path_list)):
-        merged = RegexModelNerMerger(merged, RegexNerParser(regex_json_files_path_list[i], text))
-    merged_results = RegexModelNerMerger(merged, model_results)
-    return merged_results
+
+def RegexModelNerChunkResults(regex_json_files_path_list, model_results,text, white_label_list):
+        merged = RegexNerParser(regex_json_files_path_list[0], text, white_label_list)
+        for i in range(1, len(regex_json_files_path_list)):
+            merged = RegexModelNerMerger(merged, RegexNerParser(regex_json_files_path_list[i], text, white_label_list))
+        merged_results = RegexModelNerMerger(merged, model_results)
+        return merged_results

@@ -3,8 +3,8 @@
 # Description: NER model results
 from typing import List
 
-def NerModelResults(sents_tokens_list, tokenizer, model, text, device, 
-                    assertion_relation = False, sentences =[]):
+def NerModelResults(sents_tokens_list, sentences,  tokenizer, model, text, device, 
+                    assertion_relation = False):
     """
     It returns the NER model results of a text.
     Parameters
@@ -34,11 +34,12 @@ def NerModelResults(sents_tokens_list, tokenizer, model, text, device,
         Only returned if assertion_relation is True
     """
     import torch
-    start=0
+    start = 0
     tokens,probs,begins,ends,preds,sent_begins,sent_ends,sent_idxs = [],[],[],[],[],[],[],[]
 
     for sentence_idx, sent_token_list in enumerate(sents_tokens_list):
         start_sent = 0
+        start = text.find(sentences[sentence_idx], start)
         model_inputs = tokenizer(sent_token_list, is_split_into_words = True, truncation=True,
                                         padding=False, max_length=512, return_tensors="pt").to(device)
         word_ids = model_inputs.word_ids() # sub tokenlar sent_token_list deki hangi idxteki tokena ait

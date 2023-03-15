@@ -24,16 +24,8 @@ def word_tokenizer(sentences:list)->list:
     return:
     tokens: list of list of str
     """
-    import nltk
-    def split_punc(liste:list)->list:
-        liste2 = []
-        for i in liste:
-            if  i.isalnum():
-                liste2 += [i]
-            else:
-                liste2 += list(i)
-        return liste2                           
-    tokens= [split_punc(nltk.tokenize.wordpunct_tokenize(i)) for i in sentences]
+    import nltk                      
+    tokens= [nltk.tokenize.wordpunct_tokenize(i) for i in sentences]
     return tokens
 
 

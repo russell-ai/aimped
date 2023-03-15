@@ -22,5 +22,14 @@ aimped/nlp/deid_pipeline.py
 aimped/nlp/ner_results.py
 aimped/nlp/pipeline.py
 aimped/nlp/regex_parser.py
+aimped/nlp/relation_pipeline.py
 aimped/nlp/tokenizer.py
+aimped/test/__init__.py
+aimped/test/test_assertion.py
+aimped/test/test_chunk_merger.py
+aimped/test/test_deid_pipeline.py
+aimped/test/test_ner_results.py
+aimped/test/test_regex_parser.py
+aimped/test/test_relation_pipeline.py
+aimped/test/test_tokenizer.py
 aimped/train/__init__.py

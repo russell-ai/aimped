@@ -36,7 +36,7 @@ class Pipeline:
         return:
         ----------------
         ner_results: list of dict"""
-        from aimped.nlp.ner_results import NerModelResults
+        from aimped.nlp.ner import NerModelResults
         ner_results = NerModelResults(text=text, tokenizer=self.tokenizer,
                                       model=self.model, device=self.device,
                                       sents_tokens_list=sents_tokens_list,
@@ -59,7 +59,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.deid_pipeline import maskText, fakedChunk, fakedText, deidentification
+        from aimped.nlp.deid import maskText, fakedChunk, fakedText, deidentification
         results = deidentification(text=text,
                                    merged_results=merged_results,
                                    fake_csv_path=fake_csv_path,
@@ -79,7 +79,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.assertion_pipeline import assertion_annotate_sentence, AssertionModelResults
+        from aimped.nlp.assertion import assertion_annotate_sentence, AssertionModelResults
         results = AssertionModelResults(ner_results=ner_results,
                                         sentences=sentences,
                                         classifier=classifier,
@@ -160,7 +160,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.relation_pipeline import RelationResults, relation_annotate_sentence
+        from aimped.nlp.relation import RelationResults, relation_annotate_sentence
         results = RelationResults(sentences, ner_chunk_results, relation_classifier,
                                   ner_white_label_list, relation_white_label_list, one_to_many=one_to_many,
                                   one_label=one_label, return_svg=return_svg)

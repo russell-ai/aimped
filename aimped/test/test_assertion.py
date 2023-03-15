@@ -28,7 +28,7 @@ assertion_white_label_list = ['present', 'absent', 'possible']
 # print("sentences: ", sentences)
 # print("sents_tokens_list: ", sents_tokens_list)
 
-tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs = ner_pipe.ner_results(
+tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs = ner_pipe.ner_result(
     text=text,
     sents_tokens_list=sents_tokens_list,
     sentences=sentences,
@@ -50,10 +50,10 @@ ner_results = ner_pipe.chunk_merger(text=text,
 
 # print(ner_results)
 
-results = ner_pipe.assertion(ner_results=ner_results,
-                             classifier=classifier,
-                             assertion_white_label_list=assertion_white_label_list,
-                             sentences=sentences,
-                             )
+results = ner_pipe.assertion_result(ner_results=ner_results,
+                                    classifier=classifier,
+                                    assertion_white_label_list=assertion_white_label_list,
+                                    sentences=sentences,
+                                    )
 
 print(results)

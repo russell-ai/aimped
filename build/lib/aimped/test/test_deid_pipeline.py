@@ -18,9 +18,9 @@ white_label_list = ['PATIENT', 'ORGANIZATION', 'SSN', 'SEX', 'DOCTOR', 'HOSPITAL
                     'STREET', 'EMAIL', 'DATE', 'ID', 'CITY', 'COUNTRY', 'PROFESSION']
 # print(sents_tokens_list)
 pipe = Pipeline(model=model, tokenizer=tokenizer, device='cpu')
-tokens, preds, probs, begins, ends = pipe.ner_results(text=text,
-                                                      sents_tokens_list=sents_tokens_list,
-                                                      sentences=sentences)
+tokens, preds, probs, begins, ends = pipe.ner_result(text=text,
+                                                     sents_tokens_list=sents_tokens_list,
+                                                     sentences=sentences)
 
 merged_chunks = pipe.chunk_merger(text, white_label_list, tokens, preds, probs, begins, ends)
 # print("merged_chunks: ", merged_chunks)
@@ -30,7 +30,7 @@ merged_results = pipe.regex(regex_json_files_path, merged_chunks, text, white_la
 # print("merged_results:", merged_results)
 
 fake_csv_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\nlp-health-deidentification-sub-base-en\fake.csv"
-deid_results = pipe.deid(text, merged_results, fake_csv_path, faked=True, masked=True)
+deid_results = pipe.deid_result(text, merged_results, fake_csv_path, faked=True, masked=True)
 
 from pprint import pprint
 pprint(deid_results, indent=1)

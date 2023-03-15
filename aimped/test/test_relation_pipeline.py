@@ -36,16 +36,15 @@ sents_tokens_list = word_tokenizer(sentences)
 print(sents_tokens_list)
 white_label_list = ['DRUG', 'ADE']
 
-tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs = pipe.ner_results(text=text,
-                                                                                         sents_tokens_list=sents_tokens_list,
-                                                                                         sentences=sentences,
-                                                                                         assertion_relation=True)
+tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs = pipe.ner_result(text=text,
+                                                                                        sents_tokens_list=sents_tokens_list,
+                                                                                        sentences=sentences,
+                                                                                        assertion_relation=True)
 print("tokens: ", tokens)
 print("preds: ", preds)
 print("probs:", probs)
 print("begins:", begins)
 print("ends:", ends)
-# print(sentences)
 # %%
 results = pipe.chunk_merger(text=text,
                             white_label_list=white_label_list, tokens=tokens, preds=preds, probs=probs, begins=begins,
@@ -55,8 +54,8 @@ print("results: ", results)
 
 # %%
 relation_white_label_list = ['Positive', 'Negative']
-results = pipe.relation_results(sentences=sentences, ner_chunk_results=results, relation_classifier=relation_classifier,
-                                ner_white_label_list=white_label_list,
-                                relation_white_label_list=relation_white_label_list,
-                                one_to_many=True, one_label='DRUG', return_svg=False)
+results = pipe.relation_result(sentences=sentences, ner_chunk_results=results, relation_classifier=relation_classifier,
+                               ner_white_label_list=white_label_list,
+                               relation_white_label_list=relation_white_label_list,
+                               one_to_many=True, one_label='DRUG', return_svg=False)
 print("results: ", results)

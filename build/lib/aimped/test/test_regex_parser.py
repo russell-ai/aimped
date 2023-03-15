@@ -18,9 +18,9 @@ white_label_list = ['PATIENT', 'ORGANIZATION', 'SSN', 'SEX', 'DOCTOR', 'HOSPITAL
                     'STREET', 'EMAIL', 'DATE', 'ID', 'CITY', 'COUNTRY', 'PROFESSION']
 # print(sents_tokens_list)
 pipe = Pipeline(model=model, tokenizer=tokenizer, device='cpu')
-tokens, preds, probs, begins, ends = pipe.ner_results(text=text,
-                                                      sents_tokens_list=sents_tokens_list,
-                                                      sentences=sentences)
+tokens, preds, probs, begins, ends = pipe.ner_result(text=text,
+                                                     sents_tokens_list=sents_tokens_list,
+                                                     sentences=sentences)
 
 merged_chunks = pipe.chunk_merger(text, white_label_list, tokens, preds, probs, begins, ends)
 # print("merged_chunks: ", merged_chunks)

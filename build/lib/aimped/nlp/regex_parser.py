@@ -80,7 +80,7 @@ def RegexModelNerMerger(rule, results_from_model):
     return merged
 
 
-def RegexModelNerChunkResults(regex_json_files_path_list, model_results, text, white_label_list):
+def RegexModelOutputMerger(regex_json_files_path_list, model_results, text, white_label_list):
     """Parses the text with regex and merges the results.
     parameters:
     ----------------

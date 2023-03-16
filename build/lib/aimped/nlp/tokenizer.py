@@ -3,7 +3,7 @@
 # Description: Text tokenizer
 
 
-def sentence_tokenizer(text:str, language:str)->list:
+def SentenceTokenizer(text: str, language: str) -> list:
     """ 
     Tokenize a text into sentences.
     text: str    
@@ -11,12 +11,13 @@ def sentence_tokenizer(text:str, language:str)->list:
             portuguese, polish, norwegian, italian, 
             greek, german, french, finnish, estonian 
             english, dutch, danish, czech )
-    """    
+    """
     import nltk
     sent = nltk.tokenize.sent_tokenize(text, language=language)
     return sent
 
-def word_tokenizer(sentences:list)->list:
+
+def WordTokenizer(sentences: list) -> list:
     """
     Tokenize a list of sentences into words.
     parameters:
@@ -24,13 +25,7 @@ def word_tokenizer(sentences:list)->list:
     return:
     tokens: list of list of str
     """
-    import nltk                      
-    tokens= [nltk.tokenize.wordpunct_tokenize(i) for i in sentences]
+    import nltk
+    tokens = [nltk.tokenize.wordpunct_tokenize(i) for i in sentences]
     return tokens
 
-
-# TODO: Test these functions
-if __name__ == "__main__":
-    text = "This is a test. This is only a test."
-    print(sentence_tokenizer(text, "english"))
-    print(word_tokenizer(sentence_tokenizer(text, "english")))

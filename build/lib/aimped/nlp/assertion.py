@@ -3,7 +3,7 @@
 # Description This file contains the pipeline for assertion detection of clinical notes
 
 
-def assertion_annotate_sentence(df):
+def AssertionAnnotateSentence(df):
     """
     It annotates the sentence with [Entity] tags.   
     parameters:
@@ -50,7 +50,7 @@ def AssertionModelResults(ner_results, sentences, classifier, assertion_white_la
             for i in df.sent_idx.unique():
                 df.loc[df[df.sent_idx == i].index, 'sentence'] = sentences[i]
             df['new_sentence'] = np.nan
-            df['new_sentence'] = df.apply(assertion_annotate_sentence, axis=1)
+            df['new_sentence'] = df.apply(AssertionAnnotateSentence, axis=1)
             df.reset_index(drop=True, inplace=True)
             rel_results = classifier(list(df['new_sentence']))
             df = pd.concat([df, pd.DataFrame(rel_results)], axis=1)

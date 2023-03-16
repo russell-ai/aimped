@@ -96,7 +96,3 @@ def ChunkMerger(text, white_label_list, tokens, preds, probs, begins, ends,
     return results
 
 
-if __name__ == "__main__":
-    pass
-    # results = ChunkMerger()
-    # print(results)

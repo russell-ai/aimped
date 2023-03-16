@@ -79,7 +79,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.assertion import assertion_annotate_sentence, AssertionModelResults
+        from aimped.nlp.assertion import AssertionAnnotateSentence, AssertionModelResults
         results = AssertionModelResults(ner_results=ner_results,
                                         sentences=sentences,
                                         classifier=classifier,
@@ -107,7 +107,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.chunk_merger import ChunkMerger
+        from aimped.nlp.chunker import ChunkMerger
         results = ChunkMerger(text=text,
                               white_label_list=white_label_list,
                               tokens=tokens,
@@ -133,13 +133,13 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.regex_parser import RegexNerParser, RegexModelNerMerger, RegexModelNerChunkResults
+        from aimped.nlp.regex_parser import RegexNerParser, RegexModelNerMerger, RegexModelOutputMerger
         import glob
         regex_json_files_path_list = glob.glob(f"{regex_json_files_path}/*.json")
-        merged_results = RegexModelNerChunkResults(regex_json_files_path_list=regex_json_files_path_list,
-                                                   model_results=model_results,
-                                                   text=text,
-                                                   white_label_list=white_label_list)
+        merged_results = RegexModelOutputMerger(regex_json_files_path_list=regex_json_files_path_list,
+                                                model_results=model_results,
+                                                text=text,
+                                                white_label_list=white_label_list)
         return merged_results
 
     def relation_results(self, sentences, ner_chunk_results, relation_classifier,
@@ -160,7 +160,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.relation import RelationResults, relation_annotate_sentence
+        from aimped.nlp.relation import RelationResults, RelationAnnotateSentence
         results = RelationResults(sentences, ner_chunk_results, relation_classifier,
                                   ner_white_label_list, relation_white_label_list, one_to_many=one_to_many,
                                   one_label=one_label, return_svg=return_svg)

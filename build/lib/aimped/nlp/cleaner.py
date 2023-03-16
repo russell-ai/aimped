@@ -41,6 +41,10 @@ def text_cleaner(text:str,
         try:
             stopwords = nltk.corpus.stopwords.words(language)
             text = ' '.join([word for word in text.split() if word not in stopwords])
+        except LookupError:
+            nltk.download('stopwords')
+            stopwords = nltk.corpus.stopwords.words(language)
+            text = ' '.join([word for word in text.split() if word not in stopwords])
         except:
             print('No stopwords for language: {}'.format(language))
             print("Please use nltk.download('stopwords') to download the stopwords for the language you want to use.")

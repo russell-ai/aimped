@@ -2,7 +2,7 @@
 # Date 2023-March-14
 # Description This file contains the pipeline for relation extraction.
 
-def RelationAnnotateSentence(df):
+def relation_annotate_sentence(df):
     """It annotates the sentence with [Entity] tags.
     parameters:
     ----------------
@@ -86,7 +86,7 @@ def RelationResults(sentences, ner_chunk_results, relation_classifier,
                 df['sentence'] = sentences[i]
                 df = df.drop([0, 1], axis=1)
                 df['new_sentence'] = np.nan
-                df['new_sentence'] = df.apply(RelationAnnotateSentence, axis=1)
+                df['new_sentence'] = df.apply(relation_annotate_sentence, axis=1)
                 df.reset_index(drop=True, inplace=True)
                 rel_results = relation_classifier(list(df['new_sentence']))
                 df = pd.concat([df, pd.DataFrame(rel_results)], axis=1)

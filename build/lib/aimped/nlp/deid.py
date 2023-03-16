@@ -91,3 +91,6 @@ def deidentification(faked, masked, merged_results, text, fake_csv_path):
         return {"entities": merged_results}
     
 
+# TODO: Test this function
+if __name__ == "__main__":
+    pass

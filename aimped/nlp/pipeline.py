@@ -81,7 +81,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.assertion import assertion_annotate_sentence, AssertionModelResults
+        from aimped.nlp.assertion import AssertionAnnotateSentence, AssertionModelResults
         results = AssertionModelResults(ner_results=ner_results,
                                         sentences=sentences,
                                         classifier=classifier,
@@ -89,8 +89,8 @@ class Pipeline:
                                         )
         return results
 
-    def chunk_merger(self, text, white_label_list, tokens, preds, probs, begins, ends,
-                     assertion_relation=False, sent_begins=[], sent_ends=[], sent_idxs=[]):
+    def chunker_result(self, text, white_label_list, tokens, preds, probs, begins, ends,
+                       assertion_relation=False, sent_begins=[], sent_ends=[], sent_idxs=[]):
         """It returns the merged chunks of a text.
         parameters:
         ----------------
@@ -109,7 +109,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.chunk_merger import ChunkMerger
+        from aimped.nlp.chunker import ChunkMerger
         results = ChunkMerger(text=text,
                               white_label_list=white_label_list,
                               tokens=tokens,
@@ -123,7 +123,7 @@ class Pipeline:
                               sent_idxs=sent_idxs)
         return results
 
-    def regex(self, regex_json_files_path, model_results, text, white_label_list):
+    def regex_result(self, regex_json_files_path, model_results, text, white_label_list):
         """It returns the regex results of a text.
         parameters:
         ----------------
@@ -135,14 +135,14 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.regex_parser import RegexNerParser, RegexModelNerMerger, RegexModelNerChunkResults
+        from aimped.nlp.regex_parser import RegexNerParser, RegexModelNerMerger, RegexModelOutputMerger
         import glob
         regex_json_files_path_list = glob.glob(f"{regex_json_files_path}/*.json")
 
-        merged_results = RegexModelNerChunkResults(regex_json_files_path_list=regex_json_files_path_list,
-                                                   model_results=model_results,
-                                                   text=text,
-                                                   white_label_list=white_label_list)
+        merged_results = RegexModelOutputMerger(regex_json_files_path_list=regex_json_files_path_list,
+                                                model_results=model_results,
+                                                text=text,
+                                                white_label_list=white_label_list)
         return merged_results
 
     def relation_result(self, sentences, ner_chunk_results, relation_classifier,
@@ -163,7 +163,7 @@ class Pipeline:
         ----------------
         results: list of dict
         """
-        from aimped.nlp.relation import RelationResults, relation_annotate_sentence
+        from aimped.nlp.relation import RelationResults, RelationAnnotateSentence
         results = RelationResults(sentences=sentences,
                                   ner_chunk_results=ner_chunk_results,
                                   relation_classifier=relation_classifier,
@@ -178,57 +178,3 @@ class Pipeline:
         """Return the string representation of the pipeline."""
         return f"Pipeline(model={self.model}, tokenizer={self.tokenizer})"
 
-
-# TEST CODE
-if __name__ == "__main__":
-    import torch
-    import pandas as pd
-    import numpy as np
-    import os
-    import re
-    import json
-    from tokenizer import sentence_tokenizer, word_tokenizer
-
-    # load model
-    from transformers import AutoTokenizer, AutoModelForTokenClassification
-
-    saved_model_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\model"
-    tokenizer = AutoTokenizer.from_pretrained(saved_model_path)
-    model = AutoModelForTokenClassification.from_pretrained(saved_model_path)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # print(f"device: {device}")
-
-    # load data
-    text = open("aimped\\test\\data.txt", "r").read()
-    sentences = sentence_tokenizer(text, "english")
-    sents_tokens_list = word_tokenizer(sentences)
-    white_label_list = ['PATIENT', 'ORGANIZATION', 'SSN', 'SEX', 'DOCTOR', 'HOSPITAL', 'AGE', 'MEDICALRECORD', 'ZIP',
-                        'STREET', 'EMAIL', 'DATE', 'ID', 'CITY', 'COUNTRY', 'PROFESSION']
-    # print(sents_tokens_list)
-
-    # test pipeline
-    pipe = Pipeline(model=model, tokenizer=tokenizer, device='cpu')
-    tokens, preds, probs, begins, ends = pipe.ner_result(text=text,
-                                                         sents_tokens_list=sents_tokens_list,
-                                                         sentences=sentences)
-    # print("tokens: ", tokens)
-    # print("preds: ", preds)
-    # print("probs:", probs)
-    # print("begins:", begins)
-    # print("ends:", ends)
-    merged_chunks = pipe.chunk_merger(text, white_label_list, tokens, preds, probs, begins, ends)
-    # print(merged_chunks)
-
-    # test regex
-    regex_json_files_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\nlp-health-deidentification-sub-base-en\json_regex"
-    merged_results = pipe.regex(regex_json_files_path, merged_chunks, text, white_label_list)
-    # print(merged_results)
-
-    # test deid
-    fake_csv_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\nlp-health-deidentification-sub-base-en\fake.csv"
-    deid_results = pipe.deid_result(text, merged_results, fake_csv_path, faked=True, masked=True)
-    import pprint
-
-    pprint.pprint(deid_results, indent=1)
-
-    # test assertion

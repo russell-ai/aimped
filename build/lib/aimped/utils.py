@@ -63,4 +63,4 @@ class NumpyFloatValuesEncoder(json.JSONEncoder):
 
 # TODO: test these functions
 if __name__ == '__main__':
-    print(get_aimped_version())
+    print(get_version())

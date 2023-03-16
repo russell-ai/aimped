@@ -2,7 +2,7 @@ from transformers import (AutoModelForSequenceClassification,
                           AutoModelForTokenClassification, AutoTokenizer,
                           pipeline)
 from aimped.nlp.pipeline import Pipeline
-from aimped.nlp.tokenizer import sentence_tokenizer, word_tokenizer
+from aimped.nlp.tokenizer import SentenceTokenizer, WordTokenizer
 
 # %%
 ner_model_path = r"C:\Users\rcali\Desktop\kubeflow\relation\ner_model"
@@ -29,10 +29,10 @@ A 37-year-old female patient was diagnosed with hepatic impairment 8 months ago 
 Successful treatment with carbimazole	of a hyperthyroid pregnancy with  hepatic impairment  after propylthiouracil administration.'''
 
 pipe = Pipeline(model=ner_model, tokenizer=ner_tokenizer, device='cpu')
-sentences = sentence_tokenizer(text, "english")
+sentences = SentenceTokenizer(text, "english")
 print(sentences)
 sentences = [sentences[idx] for idx, label in enumerate(classifier(sentences)) if label['label'] == 'Positive']
-sents_tokens_list = word_tokenizer(sentences)
+sents_tokens_list = WordTokenizer(sentences)
 print(sents_tokens_list)
 white_label_list = ['DRUG', 'ADE']
 
@@ -46,10 +46,10 @@ print("probs:", probs)
 print("begins:", begins)
 print("ends:", ends)
 # %%
-results = pipe.chunk_merger(text=text,
-                            white_label_list=white_label_list, tokens=tokens, preds=preds, probs=probs, begins=begins,
-                            ends=ends,
-                            sent_begins=sent_begins, sent_ends=sent_ends, sent_idxs=sent_idxs, assertion_relation=True)
+results = pipe.chunker_result(text=text,
+                              white_label_list=white_label_list, tokens=tokens, preds=preds, probs=probs, begins=begins,
+                              ends=ends,
+                              sent_begins=sent_begins, sent_ends=sent_ends, sent_idxs=sent_idxs, assertion_relation=True)
 print("results: ", results)
 
 # %%

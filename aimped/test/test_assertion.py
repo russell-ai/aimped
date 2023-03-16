@@ -2,7 +2,7 @@ from transformers import (AutoModelForSequenceClassification,
                           AutoModelForTokenClassification, AutoTokenizer,
                           pipeline)
 from aimped.nlp.pipeline import Pipeline
-from aimped.nlp.tokenizer import sentence_tokenizer, word_tokenizer
+from aimped.nlp.tokenizer import SentenceTokenizer, WordTokenizer
 
 text = '''Patient has a headache for the last 2 weeks, needs to get a head CT, and appears anxious when she walks fast. 
 No alopecia noted. She denies pain.
@@ -20,8 +20,8 @@ ner_model = AutoModelForTokenClassification.from_pretrained(ner_model_path)
 
 ner_pipe = Pipeline(model=ner_model, tokenizer=ner_tokenizer, device='cpu')
 
-sentences = sentence_tokenizer(text, "english")
-sents_tokens_list = word_tokenizer(sentences)
+sentences = SentenceTokenizer(text, "english")
+sents_tokens_list = WordTokenizer(sentences)
 white_label_list = ['problem', 'test', 'treatment']
 assertion_white_label_list = ['present', 'absent', 'possible']
 
@@ -36,17 +36,17 @@ tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs = ner_pipe
 )
 # print(tokens, preds, probs, begins, ends, sent_begins, sent_ends, sent_idxs)
 
-ner_results = ner_pipe.chunk_merger(text=text,
-                                    white_label_list=white_label_list,
-                                    tokens=tokens,
-                                    preds=preds,
-                                    probs=probs,
-                                    begins=begins,
-                                    ends=ends,
-                                    assertion_relation=True,
-                                    sent_begins=sent_begins,
-                                    sent_ends=sent_ends,
-                                    sent_idxs=sent_idxs)
+ner_results = ner_pipe.chunker_result(text=text,
+                                      white_label_list=white_label_list,
+                                      tokens=tokens,
+                                      preds=preds,
+                                      probs=probs,
+                                      begins=begins,
+                                      ends=ends,
+                                      assertion_relation=True,
+                                      sent_begins=sent_begins,
+                                      sent_ends=sent_ends,
+                                      sent_idxs=sent_idxs)
 
 # print(ner_results)
 

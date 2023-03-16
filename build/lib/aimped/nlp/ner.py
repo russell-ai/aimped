@@ -88,7 +88,7 @@ if __name__ == "__main__":
     import os
     import re
     import json
-    from tokenizer import SentenceTokenizer, WordTokenizer
+    from tokenizer import sentence_tokenizer, word_tokenizer
 
     # load model
     from transformers import AutoTokenizer, AutoModelForTokenClassification
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     # load data
     text = open("aimped\\test\\data.txt", "r").read()
-    sents_tokens_list = WordTokenizer(SentenceTokenizer(text, "english"))
+    sents_tokens_list = word_tokenizer(sentence_tokenizer(text, "english"))
 
     # ner = pipeline('token-classification', model=model, tokenizer=tokenizer, device=device)
     # print(ner(text))
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     white_label_list = ['PATIENT', 'ORGANIZATION', 'SSN', 'SEX', 'DOCTOR', 'HOSPITAL', 'AGE', 'MEDICALRECORD', 'ZIP',
                         'STREET', 'EMAIL', 'DATE', 'ID', 'CITY', 'COUNTRY', 'PROFESSION']
 
-    from chunker import ChunkMerger
+    from chunk_merger import ChunkMerger
 
     merged_chunks = ChunkMerger(text, white_label_list, tokens, preds, probs, begins, ends)
     print(merged_chunks)

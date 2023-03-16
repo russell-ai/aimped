@@ -1,5 +1,5 @@
 import torch
-from aimped.nlp.tokenizer import sentence_tokenizer, word_tokenizer
+from aimped.nlp.tokenizer import SentenceTokenizer, WordTokenizer
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from aimped.nlp.pipeline import Pipeline
 
@@ -12,8 +12,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # load data
 text = open("data.txt", "r").read()
-sentences = sentence_tokenizer(text, "english")
-sents_tokens_list = word_tokenizer(sentences)
+sentences = SentenceTokenizer(text, "english")
+sents_tokens_list = WordTokenizer(sentences)
 white_label_list = ['PATIENT', 'ORGANIZATION', 'SSN', 'SEX', 'DOCTOR', 'HOSPITAL', 'AGE', 'MEDICALRECORD', 'ZIP',
                     'STREET', 'EMAIL', 'DATE', 'ID', 'CITY', 'COUNTRY', 'PROFESSION']
 # print(sents_tokens_list)
@@ -22,9 +22,9 @@ tokens, preds, probs, begins, ends = pipe.ner_result(text=text,
                                                      sents_tokens_list=sents_tokens_list,
                                                      sentences=sentences)
 
-merged_chunks = pipe.chunk_merger(text, white_label_list, tokens, preds, probs, begins, ends)
+merged_chunks = pipe.chunker_result(text, white_label_list, tokens, preds, probs, begins, ends)
 # print("merged_chunks: ", merged_chunks)
 
 regex_json_files_path = r"C:\Users\rcali\Desktop\kubeflow\deid-ner-gitlab\nlp-health-deidentification-sub-base-en\json_regex"
-merged_results = pipe.regex(regex_json_files_path, merged_chunks, text, white_label_list)
+merged_results = pipe.regex_result(regex_json_files_path, merged_chunks, text, white_label_list)
 print("merged_results:", merged_results)

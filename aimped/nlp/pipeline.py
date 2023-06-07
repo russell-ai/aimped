@@ -123,7 +123,7 @@ class Pipeline:
                               sent_idxs=sent_idxs)
         return results
 
-    def regex_result(self, regex_json_files_path, model_results, text, white_label_list):
+    def regex_model_output_merger(self, regex_json_files_path, model_results, text, white_label_list):
         """It returns the regex results of a text.
         parameters:
         ----------------
@@ -173,6 +173,14 @@ class Pipeline:
                                   one_label=one_label,
                                   return_svg=return_svg)
         return results
+
+ 
+   
+
+    def __str__(self) -> str:
+        """Return the string representation of the pipeline."""
+        return f"Pipeline(model={self.model}, tokenizer={self.tokenizer})"
+
 
     def __str__(self) -> str:
         """Return the string representation of the pipeline."""

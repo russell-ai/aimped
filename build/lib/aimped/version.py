@@ -1,6 +1,7 @@
 # Author: AIMPED
 # Date: 2023-March-11
-# Description: Contains the version of aimped library.
+# Copyright: AIMPED
+# Description: Version file for AIMPED
 
 
-__version__ = "0.0.9"
+__version__ = "0.1.51"

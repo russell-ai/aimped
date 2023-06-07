@@ -37,8 +37,8 @@ def get_handler(log_file='KSERVE.log', log_level=logging.DEBUG):
 
 def cuda_info():
     """Returns the cuda information if cuda is available."""
-    import torch
     try:
+        import torch
         if torch.cuda.is_available():
             cuda_info = {"cuda is available": torch.cuda.is_available(),
                          "device count": torch.cuda.device_count(),

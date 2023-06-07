@@ -3,7 +3,7 @@
 # Description: Text tokenizer
 
 
-def SentenceTokenizer(text: str, language: str) -> list:
+def sentence_tokenizer(text: str, language: str) -> list:
     """ 
     Tokenize a text into sentences.
     text: str    
@@ -17,7 +17,7 @@ def SentenceTokenizer(text: str, language: str) -> list:
     return sent
 
 
-def WordTokenizer(sentences: list) -> list:
+def word_tokenizer(sentences: list) -> list:
     """
     Tokenize a list of sentences into words.
     parameters:
